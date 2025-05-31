@@ -2,12 +2,29 @@
 document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const navbar = document.querySelector('.navbar');
-
+    const navItems = document.querySelectorAll('.navlist li a');
     if (mobileMenuBtn && navbar) {
         mobileMenuBtn.addEventListener('click', function() {
             navbar.classList.toggle('active');
         });
     }
+       // Set active link based on current URL
+    const currentPath = window.location.pathname.split('/').pop(); // get filename from URL
+
+    navItems.forEach(link => {
+        const linkPath = link.getAttribute('href');
+        if (linkPath === currentPath || (linkPath === 'index.html' && currentPath === '')) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+
+        // Optional: Handle click switching if you use JS navigation (e.g., SPA)
+        link.addEventListener('click', () => {
+            navItems.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+        });
+    });
 
     // FAQ functionality
     document.querySelectorAll('.faq-question').forEach(question => {
