@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Shipment | TransVioGlobal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="icon" href="images/favicon.png" type="image/png">
+</head>
+<body>
+       <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <!-- <img src="images/logo.png" alt="TransVioGlobal Logo"> -->
+                    <span>TransVioGlobal</span>
+                </a>
+            </div>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="track.html">Track Shipment</a></li>
+                    <li><a href="book.html">Book Shipment</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-outline">Login</a>
+                <a href="login.html?action=signup" class="btn btn-primary">Sign Up</a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Page Banner -->
+    <section class="page-banner">
+        <div class="container">
+            <h1>Track Your Shipment</h1>
+            <p>Real-time updates on your package's journey</p>
+        </div>
+    </section>
+
+    <!-- Tracking Form -->
+    <section class="tracking-form-section">
+        <div class="container">
+            <div class="tracking-form-container">
+                <div class="form-header">
+                    <h2>Enter Tracking Number</h2>
+                    <p>Track up to 10 shipments at once (separate by comma or space)</p>
+                </div>
+                <form id="trackingForm">
+                    <div class="form-group">
+                        <input type="text" id="trackingNumber" placeholder="e.g. TVG123456789" required>
+                        <button type="submit" class="btn btn-primary">Track <i class="fas fa-search"></i></button>
+                    </div>
+                </form>
+                <div class="form-footer">
+                    <p>Don't know your tracking number? <a href="contact.html">Contact us</a> for assistance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tracking Results -->
+    <section class="tracking-results" id="trackingResults" style="display: none;">
+        <div class="container">
+            <div class="results-header">
+                <h2>Shipment Status</h2>
+                <div class="tracking-number-display">
+                    Tracking Number: <span id="displayTrackingNumber">TVG123456789</span>
+                    <button class="btn btn-outline" id="printBtn"><i class="fas fa-print"></i> Print</button>
+                </div>
+            </div>
+
+            <div class="tracking-timeline">
+                <div class="timeline-progress">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+
+                <div class="timeline-steps">
+                    <div class="timeline-step completed">
+                        <div class="step-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>Order Processed</h4>
+                            <p>May 15, 2023 - 09:30 AM</p>
+                            <p>Your shipment has been processed and is ready for pickup.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-step completed">
+                        <div class="step-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>Picked Up</h4>
+                            <p>May 15, 2023 - 02:15 PM</p>
+                            <p>Your package has been collected by our driver.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-step completed">
+                        <div class="step-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>In Transit</h4>
+                            <p>May 16, 2023 - 08:45 AM</p>
+                            <p>Your shipment is on its way to the destination facility.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-step active">
+                        <div class="step-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>Out for Delivery</h4>
+                            <p>May 17, 2023 - 07:30 AM</p>
+                            <p>Your package is with the delivery driver and will arrive today.</p>
+                        </div>
+                    </div>
+
+                    <div class="timeline-step">
+                        <div class="step-icon">
+                            <i class="far fa-circle"></i>
+                        </div>
+                        <div class="step-content">
+                            <h4>Delivered</h4>
+                            <p>Estimated: May 17, 2023 - by 8:00 PM</p>
+                            <p>Your package will be delivered to the recipient.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="shipment-details">
+                <div class="details-card">
+                    <h3>Shipment Details</h3>
+                    <div class="detail-row">
+                        <span class="detail-label">Origin:</span>
+                        <span class="detail-value">New York, NY</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Destination:</span>
+                        <span class="detail-value">Los Angeles, CA</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Service:</span>
+                        <span class="detail-value">Standard Ground</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Weight:</span>
+                        <span class="detail-value">12.5 kg</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Dimensions:</span>
+                        <span class="detail-value">30 × 20 × 15 cm</span>
+                    </div>
+                </div>
+
+                <div class="map-card">
+                    <h3>Current Location</h3>
+                    <div class="map-placeholder">
+                        <img src="images/map-placeholder.jpg" alt="Package location map">
+                        <div class="map-marker">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Riverside, CA</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tracking-actions">
+                <button class="btn btn-outline"><i class="fas fa-envelope"></i> Email Updates</button>
+                <button class="btn btn-outline"><i class="fas fa-bell"></i> Get Notifications</button>
+                <button class="btn btn-primary"><i class="fas fa-headset"></i> Need Help?</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="tracking-faq">
+        <div class="container">
+            <h2 class="section-title">Tracking FAQ</h2>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Why isn't my tracking number working?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Tracking numbers typically take 1-2 hours to activate in our system after processing. If your tracking number isn't working after this time, please ensure you've entered it correctly. If the issue persists, contact our customer service team for assistance.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>My package status hasn't updated in several days. What should I do?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>While most shipments update regularly, there can be delays in scanning during transit, especially for international shipments or in remote areas. If your package hasn't updated for more than 48 hours beyond the expected scan time, please contact us with your tracking number for investigation.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>Can I change the delivery address after shipment?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Address changes may be possible depending on the shipment status and service level. Please contact our customer service immediately with your tracking number to request an address change. Additional fees may apply.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    <span>What does "Delivery Exception" mean?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>A delivery exception occurs when there's an unexpected event that could delay delivery, such as weather conditions, incorrect address, or customs hold. Check the detailed status for more information, or contact us for assistance resolving the issue.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="images/logo-white.png" alt="TransVioGlobal Logo">
+                            <span>TransVioGlobal</span>
+                        </a>
+                    </div>
+                    <p>Delivering excellence in global logistics with innovative solutions and unparalleled customer service.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="track.html">Track Shipment</a></li>
+                        <li><a href="book.html">Book Shipment</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="services.html#domestic">Domestic Shipping</a></li>
+                        <li><a href="services.html#international">International Shipping</a></li>
+                        <li><a href="services.html#freight">Freight Services</a></li>
+                        <li><a href="services.html#warehouse">Warehouse Solutions</a></li>
+                        <li><a href="services.html#ecommerce">E-commerce Fulfillment</a></li>
+                        <li><a href="services.html#fleet">Fleet Management</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Logistics Plaza, Suite 400, New York, NY 10001</li>
+                        <li><i class="fas fa-phone"></i> +1 (800) 555-9876</li>
+                        <li><i class="fas fa-envelope"></i> info@transvioglobal.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Fri: 8AM - 6PM EST</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2023 TransVioGlobal. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Live Chat and WhatsApp buttons (same as index.html) -->
+
+    <script src="js/main.js"></script>
+    <script src="js/tracking.js"></script>
+</body>
+</html>

@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | TransVioGlobal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #34495e;
+            --accent-color: #3498db;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+            --success-color: #27ae60;
+            --error-color: #e74c3c;
+            --border-radius: 4px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--dark-color);
+            line-height: 1.6;
+            background-color: #f9f9f9;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo span {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .navbar ul {
+            display: flex;
+            list-style: none;
+        }
+
+        .navbar ul li {
+            margin-left: 25px;
+        }
+
+        .navbar ul li a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: 500;
+            font-size: 15px;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .navbar ul li a:hover {
+            color: var(--accent-color);
+        }
+
+        .navbar ul li a.active {
+            color: var(--accent-color);
+        }
+
+        .navbar ul li a.active:after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+
+        .auth-buttons .btn {
+            padding: 8px 20px;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: var(--transition);
+            margin-left: 15px;
+        }
+
+        .btn-outline {
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+            border: 1px solid var(--accent-color);
+        }
+
+        .btn-primary:hover {
+            background-color: #2980b9;
+            border-color: #2980b9;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--primary-color);
+        }
+
+        /* Page Banner */
+        .page-banner {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 120px 0 80px;
+            text-align: center;
+        }
+
+        .page-banner h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 42px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .page-banner p {
+            font-size: 18px;
+            max-width: 700px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        /* Auth Section */
+        .auth-section {
+            padding: 80px 0;
+        }
+
+        .auth-tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid #e0e0e0;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .auth-tab {
+            padding: 12px 30px;
+            background: none;
+            border: none;
+            font-size: 16px;
+            font-weight: 600;
+            color: #95a5a6;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .auth-tab.active {
+            color: var(--accent-color);
+        }
+
+        .auth-tab.active:after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+
+        .auth-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .auth-form h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-family: 'Playfair Display', serif;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 15px;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .password-actions {
+            text-align: right;
+            margin-top: 5px;
+        }
+
+        .password-actions a {
+            color: var(--accent-color);
+            font-size: 13px;
+            text-decoration: none;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-group input {
+            width: auto;
+            margin-right: 10px;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+            font-weight: 400;
+        }
+
+        .auth-form button[type="submit"] {
+            width: 100%;
+            padding: 14px;
+            margin-top: 10px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .social-login {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .social-login p {
+            margin-bottom: 15px;
+            color: #7f8c8d;
+            font-size: 14px;
+            position: relative;
+        }
+
+        .social-login p:before,
+        .social-login p:after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 30%;
+            height: 1px;
+            background-color: #e0e0e0;
+        }
+
+        .social-login p:before {
+            left: 0;
+        }
+
+        .social-login p:after {
+            right: 0;
+        }
+
+        .social-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .btn-google, .btn-facebook {
+            padding: 10px 20px;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+
+        .btn-google {
+            background-color: #fff;
+            color: #db4437;
+            border: 1px solid #ddd;
+        }
+
+        .btn-google:hover {
+            background-color: #f1f1f1;
+        }
+
+        .btn-facebook {
+            background-color: #3b5998;
+            color: white;
+            border: 1px solid #3b5998;
+        }
+
+        .btn-facebook:hover {
+            background-color: #344e86;
+        }
+
+        /* Login Benefits */
+        .login-benefits {
+            padding: 60px 0;
+            background-color: #f5f7fa;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            margin-bottom: 50px;
+            color: var(--primary-color);
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .benefit {
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: var(--transition);
+        }
+
+        .benefit:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .benefit-icon {
+            width: 70px;
+            height: 70px;
+            background-color: rgba(52, 152, 219, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--accent-color);
+            font-size: 28px;
+        }
+
+        .benefit h3 {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .benefit p {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 60px 0 0;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-col h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-col h4:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background-color: var(--accent-color);
+        }
+
+        .footer-col p {
+            margin-bottom: 20px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-col ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            opacity: 0.8;
+            transition: var(--transition);
+        }
+
+        .footer-col ul li a:hover {
+            opacity: 1;
+            color: var(--accent-color);
+        }
+
+        .contact-info li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .contact-info i {
+            margin-right: 10px;
+            color: var(--accent-color);
+            width: 20px;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px 0;
+            text-align: center;
+            font-size: 13px;
+            opacity: 0.7;
+        }
+
+        .footer-links {
+            margin-top: 10px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 13px;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .navbar {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .page-banner h1 {
+                font-size: 36px;
+            }
+
+            .page-banner p {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .auth-form {
+                padding: 30px;
+            }
+
+            .benefits-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-banner {
+                padding: 100px 0 60px;
+            }
+
+            .page-banner h1 {
+                font-size: 30px;
+            }
+
+            .auth-tabs {
+                flex-direction: column;
+                border-bottom: none;
+            }
+
+            .auth-tab {
+                border-bottom: 1px solid #e0e0e0;
+            }
+
+            .auth-tab.active:after {
+                display: none;
+            }
+
+            .social-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo.png" alt="TransVioGlobal Logo">
+                    <span>TransVioGlobal</span>
+                </a>
+            </div>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="track.html">Track Shipment</a></li>
+                    <li><a href="book.html">Book Shipment</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+                <div class="auth-buttons">
+                    <a href="login.html" class="btn btn-outline">Login</a>
+                    <a href="login.html?action=signup" class="btn btn-primary">Sign Up</a>
+                </div>
+            </nav>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Banner -->
+    <section class="page-banner">
+        <div class="container">
+            <h1 id="loginTitle">Customer Login</h1>
+            <p id="loginSubtitle">Access your account to track shipments, view history, and manage preferences</p>
+        </div>
+    </section>
+
+    <!-- Login/Signup Section -->
+    <section class="auth-section">
+        <div class="container">
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login">Login</button>
+                <button class="auth-tab" data-tab="signup">Sign Up</button>
+            </div>
+
+            <!-- Login Form -->
+            <div class="auth-form active" id="loginForm">
+                <form id="loginFormActual">
+                    <div class="form-group">
+                        <label for="loginEmail">Email Address</label>
+                        <input type="email" id="loginEmail" placeholder="Enter your email address" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                        <div class="password-actions">
+                            <a href="#" id="forgotPassword">Forgot password?</a>
+                        </div>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="rememberMe">
+                        <label for="rememberMe">Remember me</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+
+                    <div class="social-login">
+                        <p>Or sign in with</p>
+                        <div class="social-buttons">
+                            <button type="button" class="btn btn-google">
+                                <i class="fab fa-google"></i> Google
+                            </button>
+                            <button type="button" class="btn btn-facebook">
+                                <i class="fab fa-facebook-f"></i> Facebook
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Signup Form -->
+            <div class="auth-form" id="signupForm">
+                <form id="signupFormActual">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="signupFirstName">First Name</label>
+                            <input type="text" id="signupFirstName" placeholder="Enter your first name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupLastName">Last Name</label>
+                            <input type="text" id="signupLastName" placeholder="Enter your last name" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupEmail">Email Address</label>
+                        <input type="email" id="signupEmail" placeholder="Enter your email address" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupPhone">Phone Number</label>
+                        <input type="tel" id="signupPhone" placeholder="Enter your phone number" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="signupPassword">Password</label>
+                            <input type="password" id="signupPassword" placeholder="Create a password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signupConfirmPassword">Confirm Password</label>
+                            <input type="password" id="signupConfirmPassword" placeholder="Confirm your password" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="signupCompany">Company (Optional)</label>
+                        <input type="text" id="signupCompany" placeholder="Enter your company name">
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="termsAgreement" required>
+                        <label for="termsAgreement">I agree to the <a href="#" style="color: var(--accent-color);">Terms of Service</a> and <a href="#" style="color: var(--accent-color);">Privacy Policy</a></label>
+                    </div>
+
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="marketingConsent">
+                        <label for="marketingConsent">I want to receive updates and offers from TransVioGlobal</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Create Account</button>
+                </form>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <div class="auth-form" id="forgotPasswordForm" style="display: none;">
+                <form id="forgotPasswordFormActual">
+                    <h2>Reset Your Password</h2>
+                    <div class="form-group">
+                        <label for="resetEmail">Email Address</label>
+                        <input type="email" id="resetEmail" placeholder="Enter your email address" required>
+                    </div>
+
+                    <p style="text-align: center; margin-bottom: 20px;">We'll send you a link to reset your password.</p>
+
+                    <button type="submit" class="btn btn-primary">Send Reset Link</button>
+                    <button type="button" class="btn btn-outline" id="backToLogin" style="width: 100%; margin-top: 15px;">Back to Login</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Benefits -->
+    <section class="login-benefits">
+        <div class="container">
+            <h2 class="section-title">Benefits of Creating an Account</h2>
+
+            <div class="benefits-grid">
+                <div class="benefit">
+                    <div class="benefit-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3>Complete Shipment History</h3>
+                    <p>Access your full shipping records with detailed tracking information and downloadable documents all in one place.</p>
+                </div>
+
+                <div class="benefit">
+                    <div class="benefit-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h3>Expedited Booking</h3>
+                    <p>Save time with pre-filled forms, saved preferences, and quick reorder of previous shipments.</p>
+                </div>
+
+                <div class="benefit">
+                    <div class="benefit-icon">
+                        <i class="fas fa-map-marked-alt"></i>
+                    </div>
+                    <h3>Address Management</h3>
+                    <p>Store and manage frequently used addresses for faster checkout and consistent documentation.</p>
+                </div>
+
+                <div class="benefit">
+                    <div class="benefit-icon">
+                        <i class="fas fa-percentage"></i>
+                    </div>
+                    <h3>Preferred Rates</h3>
+                    <p>Receive exclusive discounts, promotional rates, and personalized offers based on your shipping volume.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="images/logo-white.png" alt="TransVioGlobal Logo">
+                            <span>TransVioGlobal</span>
+                        </a>
+                    </div>
+                    <p>Delivering excellence in global logistics with innovative solutions and unparalleled customer service since 2005.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="track.html">Track Shipment</a></li>
+                        <li><a href="book.html">Book Shipment</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><a href="services.html#domestic">Domestic Shipping</a></li>
+                        <li><a href="services.html#international">International Freight</a></li>
+                        <li><a href="services.html#freight">Air & Ocean Freight</a></li>
+                        <li><a href="services.html#warehouse">Warehousing</a></li>
+                        <li><a href="services.html#ecommerce">E-commerce Logistics</a></li>
+                        <li><a href="services.html#fleet">Customs Clearance</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Corporate Office</h4>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Logistics Plaza, Suite 400<br>New York, NY 10001</li>
+                        <li><i class="fas fa-phone"></i> +1 (800) 555-9876</li>
+                        <li><i class="fas fa-envelope"></i> info@transvioglobal.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Fri: 8AM - 6PM EST</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2023 TransVioGlobal Logistics. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Check URL for action parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const action = urlParams.get('action');
+
+        // Switch to signup if action=signup
+        if (action === 'signup') {
+            switchToSignup();
+        }
+
+        // Tab switching
+        document.querySelectorAll('.auth-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                const tabId = this.getAttribute('data-tab');
+
+                // Update active tab
+                document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+
+                // Update form visibility
+                document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+                document.getElementById(tabId + 'Form').classList.add('active');
+
+                // Update page title
+                if (tabId === 'login') {
+                    document.getElementById('loginTitle').textContent = 'Customer Login';
+                    document.getElementById('loginSubtitle').textContent = 'Access your account to track shipments, view history, and manage preferences';
+                } else {
+                    document.getElementById('loginTitle').textContent = 'Create Account';
+                    document.getElementById('loginSubtitle').textContent = 'Join TransVioGlobal to enjoy faster booking and exclusive benefits';
+                }
+            });
+        });
+
+        // Forgot password
+        document.getElementById('forgotPassword').addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelectorAll('.auth-form').forEach(form => form.style.display = 'none');
+            document.getElementById('forgotPasswordForm').style.display = 'block';
+            document.getElementById('loginTitle').textContent = 'Reset Password';
+            document.getElementById('loginSubtitle').textContent = 'Enter your email to receive a password reset link';
+        });
+
+        // Back to login
+        document.getElementById('backToLogin').addEventListener('click', function() {
+            document.getElementById('forgotPasswordForm').style.display = 'none';
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('loginTitle').textContent = 'Customer Login';
+            document.getElementById('loginSubtitle').textContent = 'Access your account to track shipments, view history, and manage preferences';
+        });
+
+        // Form submissions
+        document.getElementById('loginFormActual').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // In a real implementation, this would connect to your backend
+            console.log('Login attempt with:', {
+                email: document.getElementById('loginEmail').value,
+                password: document.getElementById('loginPassword').value,
+                remember: document.getElementById('rememberMe').checked
+            });
+
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+            submitBtn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                // window.location.href = 'dashboard.html';
+                alert('Login functionality would connect to backend in production');
+            }, 1500);
+        });
+
+        document.getElementById('signupFormActual').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Validate password match
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('signupConfirmPassword').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+            submitBtn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                alert('Account created successfully! Please check your email to verify your account.');
+                this.reset();
+            }, 2000);
+        });
+
+        document.getElementById('forgotPasswordFormActual').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+
+            // Simulate API call
+            setTimeout(() => {
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+                alert('Password reset link sent to your email!');
+                this.reset();
+                document.getElementById('forgotPasswordForm').style.display = 'none';
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('loginTitle').textContent = 'Customer Login';
+                document.getElementById('loginSubtitle').textContent = 'Access your account to track shipments, view history, and manage preferences';
+            }, 1500);
+        });
+
+        function switchToSignup() {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector('[data-tab="signup"]').classList.add('active');
+
+            document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+            document.getElementById('signupForm').classList.add('active');
+
+            document.getElementById('loginTitle').textContent = 'Create Account';
+            document.getElementById('loginSubtitle').textContent = 'Join TransVioGlobal to enjoy faster booking and exclusive benefits';
+        }
+    </script>
+</body>
+</html>

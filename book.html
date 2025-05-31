@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Shipment | TransVioGlobal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="icon" href="images/favicon.png" type="image/png">
+</head>
+<body>
+    <!-- Header (same as index.html) -->
+      <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <!-- <img src="images/logo.png" alt="TransVioGlobal Logo"> -->
+                    <span>TransVioGlobal</span>
+                </a>
+            </div>
+            <nav class="navbar">
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="track.html">Track Shipment</a></li>
+                    <li><a href="book.html">Book Shipment</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="login.html" class="btn btn-outline">Login</a>
+                <a href="login.html?action=signup" class="btn btn-primary">Sign Up</a>
+            </div>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Banner -->
+    <section class="page-banner">
+        <div class="container">
+            <h1>Book a Shipment</h1>
+            <p>Fast, easy online booking for all your shipping needs</p>
+        </div>
+    </section>
+
+    <!-- Booking Form -->
+    <section class="booking-form-section">
+        <div class="container">
+            <div class="booking-steps">
+                <div class="step active" data-step="1">
+                    <span class="step-number">1</span>
+                    <span class="step-title">Shipment Details</span>
+                </div>
+                <div class="step" data-step="2">
+                    <span class="step-number">2</span>
+                    <span class="step-title">Package Info</span>
+                </div>
+                <div class="step" data-step="3">
+                    <span class="step-number">3</span>
+                    <span class="step-title">Review & Pay</span>
+                </div>
+            </div>
+
+            <form id="bookingForm">
+                <!-- Step 1: Shipment Details -->
+                <div class="form-step active" id="step1">
+                    <h2>Shipment Details</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pickupAddress">Pickup Address*</label>
+                            <input type="text" id="pickupAddress" placeholder="Street address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pickupDate">Pickup Date*</label>
+                            <input type="date" id="pickupDate" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pickupTime">Pickup Time Window*</label>
+                            <select id="pickupTime" required>
+                                <option value="">Select time window</option>
+                                <option value="morning">Morning (8AM - 12PM)</option>
+                                <option value="afternoon">Afternoon (12PM - 4PM)</option>
+                                <option value="evening">Evening (4PM - 8PM)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="pickupInstructions">Special Instructions</label>
+                            <textarea id="pickupInstructions" placeholder="Building access codes, etc." rows="2"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="deliveryAddress">Delivery Address*</label>
+                            <input type="text" id="deliveryAddress" placeholder="Street address" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryDate">Delivery Date (optional)</label>
+                            <input type="date" id="deliveryDate">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="serviceType">Service Type*</label>
+                            <select id="serviceType" required>
+                                <option value="">Select service</option>
+                                <option value="standard">Standard Ground (3-5 days)</option>
+                                <option value="express">Express (2-3 days)</option>
+                                <option value="overnight">Overnight</option>
+                                <option value="international">International</option>
+                                <option value="freight">Freight</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="deliveryInstructions">Delivery Instructions</label>
+                            <textarea id="deliveryInstructions" placeholder="Leave at front door, etc." rows="2"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-primary next-step" data-next="2">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Package Info -->
+                <div class="form-step" id="step2">
+                    <h2>Package Information</h2>
+                    <div class="package-type-selector">
+                        <div class="package-type active" data-type="single">
+                            <i class="fas fa-box"></i>
+                            <span>Single Package</span>
+                        </div>
+                        <div class="package-type" data-type="multiple">
+                            <i class="fas fa-boxes"></i>
+                            <span>Multiple Packages</span>
+                        </div>
+                    </div>
+
+                    <div class="package-details" id="singlePackage">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="packageWeight">Weight (kg)*</label>
+                                <input type="number" id="packageWeight" step="0.1" min="0.1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="packageValue">Declared Value ($)</label>
+                                <input type="number" id="packageValue" min="0">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="packageLength">Length (cm)*</label>
+                                <input type="number" id="packageLength" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="packageWidth">Width (cm)*</label>
+                                <input type="number" id="packageWidth" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="packageHeight">Height (cm)*</label>
+                                <input type="number" id="packageHeight" min="1" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="packageDescription">Contents Description*</label>
+                            <input type="text" id="packageDescription" placeholder="e.g. Documents, Clothing, Electronics" required>
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="fragile">
+                            <label for="fragile">Fragile Items</label>
+                            <input type="checkbox" id="hazardous">
+                            <label for="hazardous">Hazardous Materials</label>
+                            <input type="checkbox" id="perishable">
+                            <label for="perishable">Perishable Goods</label>
+                        </div>
+                    </div>
+
+                    <div class="package-details" id="multiplePackages" style="display: none;">
+                        <div class="multiple-packages-info">
+                            <p>For multiple packages, please provide the total weight and dimensions of your largest package. Our team will contact you for additional details after booking.</p>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="totalWeight">Total Weight (kg)*</label>
+                                <input type="number" id="totalWeight" step="0.1" min="0.1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="packageCount">Number of Packages*</label>
+                                <input type="number" id="packageCount" min="2" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="largestLength">Largest Length (cm)*</label>
+                                <input type="number" id="largestLength" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="largestWidth">Largest Width (cm)*</label>
+                                <input type="number" id="largestWidth" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="largestHeight">Largest Height (cm)*</label>
+                                <input type="number" id="largestHeight" min="1" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline prev-step" data-prev="1">Back</button>
+                        <button type="button" class="btn btn-primary next-step" data-next="3">Continue</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Review & Pay -->
+                <div class="form-step" id="step3">
+                    <h2>Review & Payment</h2>
+
+                    <div class="review-section">
+                        <div class="review-card">
+                            <h3>Shipment Summary</h3>
+                            <div class="review-row">
+                                <span class="review-label">Pickup:</span>
+                                <span class="review-value" id="reviewPickup">123 Main St, New York, NY</span>
+                            </div>
+                            <div class="review-row">
+                                <span class="review-label">Delivery:</span>
+                                <span class="review-value" id="reviewDelivery">456 Oak Ave, Los Angeles, CA</span>
+                            </div>
+                            <div class="review-row">
+                                <span class="review-label">Service:</span>
+                                <span class="review-value" id="reviewService">Standard Ground</span>
+                            </div>
+                            <div class="review-row">
+                                <span class="review-label">Pickup Date:</span>
+                                <span class="review-value" id="reviewPickupDate">May 20, 2023</span>
+                            </div>
+                            <div class="review-row">
+                                <span class="review-label">Estimated Delivery:</span>
+                                <span class="review-value" id="reviewDeliveryDate">May 24, 2023</span>
+                            </div>
+                        </div>
+
+                        <div class="review-card">
+                            <h3>Package Details</h3>
+                            <div class="review-row">
+                                <span class="review-label">Package Type:</span>
+                                <span class="review-value" id="reviewPackageType">Single Package</span>
+                            </div>
+                            <div class="review-row">
+                                <span class="review-label">Weight:</span>
+                                <span class="review-value" id="reviewWeight">5.5 kg</span>
+                            </div>
+                            <div class="review-row">
+                                <span class="review-label">Dimensions:</span>
+                                <span class="review-value" id="reviewDimensions">30 × 20 × 15 cm</span>
+                            </div>
+                            <div class="review-row">
+                                <span class="review-label">Contents:</span>
+                                <span class="review-value" id="reviewContents">Electronics</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-section">
+                        <h3>Payment Method</h3>
+                        <div class="payment-options">
+                            <div class="payment-option active" data-payment="credit">
+                                <i class="fab fa-cc-visa"></i>
+                                <span>Credit/Debit Card</span>
+                            </div>
+                            <div class="payment-option" data-payment="paypal">
+                                <i class="fab fa-paypal"></i>
+                                <span>PayPal</span>
+                            </div>
+                            <div class="payment-option" data-payment="account">
+                                <i class="fas fa-building"></i>
+                                <span>Company Account</span>
+                            </div>
+                        </div>
+
+                        <div class="payment-details" id="creditCardDetails">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="cardNumber">Card Number*</label>
+                                    <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="cardName">Name on Card*</label>
+                                    <input type="text" id="cardName" placeholder="John Smith">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cardExpiry">Expiry Date*</label>
+                                    <input type="text" id="cardExpiry" placeholder="MM/YY">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cardCvv">CVV*</label>
+                                    <input type="text" id="cardCvv" placeholder="123">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="payment-details" id="paypalDetails" style="display: none;">
+                            <p>You will be redirected to PayPal to complete your payment after submitting this form.</p>
+                        </div>
+
+                        <div class="payment-details" id="accountDetails" style="display: none;">
+                            <div class="form-group">
+                                <label for="accountNumber">Account Number*</label>
+                                <input type="text" id="accountNumber" placeholder="TVG-123456">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="billing-section">
+                        <h3>Billing Information</h3>
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="sameAsPickup" checked>
+                            <label for="sameAsPickup">Same as pickup address</label>
+                        </div>
+
+                        <div id="billingAddressFields" style="display: none;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="billingName">Full Name*</label>
+                                    <input type="text" id="billingName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="billingCompany">Company</label>
+                                    <input type="text" id="billingCompany">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="billingAddress">Address*</label>
+                                <input type="text" id="billingAddress">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="billingCity">City*</label>
+                                    <input type="text" id="billingCity">
+                                </div>
+                                <div class="form-group">
+                                    <label for="billingState">State/Province*</label>
+                                    <input type="text" id="billingState">
+                                </div>
+                                <div class="form-group">
+                                    <label for="billingZip">Postal Code*</label>
+                                    <input type="text" id="billingZip">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="billingCountry">Country*</label>
+                                <select id="billingCountry">
+                                    <option value="US">United States</option>
+                                    <!-- More countries -->
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group checkbox-group terms">
+                        <input type="checkbox" id="termsAgreement" required>
+                        <label for="termsAgreement">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline prev-step" data-prev="2">Back</button>
+                        <button type="submit" class="btn btn-primary">Complete Booking</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Booking Confirmation Modal -->
+    <div class="modal" id="confirmationModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Booking Confirmed!</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="confirmation-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <p>Your shipment has been successfully booked.</p>
+                <div class="confirmation-details">
+                    <p><strong>Tracking Number:</strong> <span id="confirmationTracking">TVG789012345</span></p>
+                    <p><strong>Estimated Pickup:</strong> <span id="confirmationPickup">May 20, 2023 - Morning</span></p>
+                    <p>A confirmation email with all details has been sent to your registered email address.</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" id="printConfirmation">Print Confirmation</button>
+                <button class="btn btn-outline" id="trackShipment">Track Shipment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="images/logo-white.png" alt="TransVioGlobal Logo">
+                            <span>TransVioGlobal</span>
+                        </a>
+                    </div>
+                    <p>Delivering excellence in global logistics with innovative solutions and unparalleled customer service.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="track.html">Track Shipment</a></li>
+                        <li><a href="book.html">Book Shipment</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="services.html#domestic">Domestic Shipping</a></li>
+                        <li><a href="services.html#international">International Shipping</a></li>
+                        <li><a href="services.html#freight">Freight Services</a></li>
+                        <li><a href="services.html#warehouse">Warehouse Solutions</a></li>
+                        <li><a href="services.html#ecommerce">E-commerce Fulfillment</a></li>
+                        <li><a href="services.html#fleet">Fleet Management</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Logistics Plaza, Suite 400, New York, NY 10001</li>
+                        <li><i class="fas fa-phone"></i> +1 (800) 555-9876</li>
+                        <li><i class="fas fa-envelope"></i> info@transvioglobal.com</li>
+                        <li><i class="fas fa-clock"></i> Mon-Fri: 8AM - 6PM EST</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2023 TransVioGlobal. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Sitemap</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Live Chat and WhatsApp buttons (same as index.html) -->
+
+    <script src="js/main.js"></script>
+    <script>
+        // Booking form functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Package type selector
+            const packageTypes = document.querySelectorAll('.package-type');
+            packageTypes.forEach(type => {
+                type.addEventListener('click', function() {
+                    packageTypes.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const packageType = this.getAttribute('data-type');
+                    document.getElementById('singlePackage').style.display = packageType === 'single' ? 'block' : 'none';
+                    document.getElementById('multiplePackages').style.display = packageType === 'multiple' ? 'block' : 'none';
+                });
+            });
+
+            // Payment method selector
+            const paymentOptions = document.querySelectorAll('.payment-option');
+            paymentOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    paymentOptions.forEach(o => o.classList.remove('active'));
+                    this.classList.add('active');
+
+                    const paymentMethod = this.getAttribute('data-payment');
+                    document.getElementById('creditCardDetails').style.display = paymentMethod === 'credit' ? 'block' : 'none';
+                    document.getElementById('paypalDetails').style.display = paymentMethod === 'paypal' ? 'block' : 'none';
+                    document.getElementById('accountDetails').style.display = paymentMethod === 'account' ? 'block' : 'none';
+                });
+            });
+
+            // Billing address toggle
+            document.getElementById('sameAsPickup').addEventListener('change', function() {
+                document.getElementById('billingAddressFields').style.display = this.checked ? 'none' : 'block';
+            });
+
+            // Form submission
+            document.getElementById('bookingForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                document.getElementById('confirmationModal').style.display = 'block';
+            });
+
+            // Modal close
+            document.querySelector('.close-modal').addEventListener('click', function() {
+                document.getElementById('confirmationModal').style.display = 'none';
+            });
+
+            // Print confirmation
+            document.getElementById('printConfirmation').addEventListener('click', function() {
+                window.print();
+            });
+
+            // Track shipment
+            document.getElementById('trackShipment').addEventListener('click', function() {
+                window.location.href = 'track.html';
+            });
+        });
+    </script>
+</body>
+</html>
