@@ -1,12 +1,13 @@
 'use client'
 import { useState, useEffect } from 'react';
-import { FaSpinner, FaCheck, FaExclamationTriangle, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaSpinner, FaCheck, FaExclamationTriangle, FaEye, FaEyeSlash} from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const AuthPage = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [activeTab, setActiveTab] = useState('login');
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -32,27 +33,14 @@ const AuthPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
-  type User = {
-    id: number;
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    password: string;
-    confirmPassword: string;
-    company: string;
-    termsAgreement: boolean;
-    marketingConsent: boolean;
-  };
-  const [users, setUsers] = useState<User[]>([]); // Simulated user database
 
   // Check URL for action parameter
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (params.get('action') === 'signup') {
+    const action = searchParams.get('action');
+    if (action === 'signup') {
       setActiveTab('signup');
     }
-  }, []);
+  }, [searchParams]);
 
   // Simulate password strength check
   useEffect(() => {
@@ -84,21 +72,13 @@ const AuthPage = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
     
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Check if user exists (simulated)
-    const userExists = users.some(user => user.email === formData.email);
-    if (userExists) {
-      setError('An account with this email already exists');
-      setLoading(false);
-      return;
-    }
     
     // Validate password match
     if (formData.password !== formData.confirmPassword) {
@@ -114,12 +94,15 @@ const AuthPage = () => {
       return;
     }
     
-    // Create new user (simulated)
-    const newUser = {
-      id: Date.now(),
-      ...formData
+    // Store user data in localStorage (simulated registration)
+    const userData = {
+      email: formData.email,
+      password: formData.password,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
     };
-    setUsers([...users, newUser]);
+    
+    localStorage.setItem('user', JSON.stringify(userData));
     
     setSuccess(true);
     setLoading(false);
@@ -142,7 +125,7 @@ const AuthPage = () => {
     }, 3000);
   };
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
@@ -150,10 +133,11 @@ const AuthPage = () => {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // Check credentials (simulated)
-    const user = users.find(u => u.email === loginData.email);
+    // Check credentials against localStorage (simulated authentication)
+    const storedUser = localStorage.getItem('user');
+    const user = storedUser ? JSON.parse(storedUser) : null;
     
-    if (!user) {
+    if (!user || user.email !== loginData.email) {
       setError('Invalid email or password');
       setLoading(false);
       return;
@@ -165,17 +149,22 @@ const AuthPage = () => {
       return;
     }
     
-    // Successful login
+    // Successful login - set authentication state
+    localStorage.setItem('isAuthenticated', 'true');
+    if (loginData.rememberMe) {
+      localStorage.setItem('rememberMe', 'true');
+    }
+    
     setSuccess(true);
     setLoading(false);
     
-    // Redirect to dashboard (simulated)
+    // Redirect to dashboard
     setTimeout(() => {
-      router.push('/dashboard');
+      router.push('/');
     }, 1500);
   };
 
-  const handlePasswordReset = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handlePasswordReset = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
@@ -183,10 +172,11 @@ const AuthPage = () => {
     // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // Check if email exists (simulated)
-    const userExists = users.some(user => user.email === resetEmail);
+    // Check if email exists in localStorage
+    const storedUser = localStorage.getItem('user');
+    const user = storedUser ? JSON.parse(storedUser) : null;
     
-    if (!userExists) {
+    if (!user || user.email !== resetEmail) {
       setError('No account found with this email');
       setLoading(false);
       return;
@@ -218,187 +208,328 @@ const AuthPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-    
-      <main className="py-12">
-        <div className="max-w-md mx-auto px-4 sm:px-0">
-          {/* Page Title */}
-          <div className="text-center mb-10">
-            <motion.h1 
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-3xl font-bold text-gray-800 mb-2"
-            >
-              {showForgotPassword ? 'Reset Password' : activeTab === 'login' ? 'Welcome Back' : 'Create Account'}
-            </motion.h1>
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.1 }}
-              className="text-gray-600"
-            >
-              {showForgotPassword 
-                ? 'Enter your email to receive a password reset link'
-                : activeTab === 'login'
-                ? 'Sign in to access your shipments and account details'
-                : 'Join TransVioGlobal to enjoy faster booking and exclusive benefits'}
-            </motion.p>
-          </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-24">
+      <div className="max-w-md mx-auto px-4 sm:px-0">
+        {/* Page Title */}
+        <div className="text-center mb-10">
+          <motion.h1 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-3xl font-bold text-gray-800 mb-2"
+          >
+            {showForgotPassword ? 'Reset Password' : activeTab === 'login' ? 'Welcome Back' : 'Create Account'}
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.1 }}
+            className="text-gray-600"
+          >
+            {showForgotPassword 
+              ? 'Enter your email to receive a password reset link'
+              : activeTab === 'login'
+              ? 'Sign in to access your shipments and account details'
+              : 'Join TransVioGlobal to enjoy faster booking and exclusive benefits'}
+          </motion.p>
+        </div>
 
-          {/* Tabs */}
-          {!showForgotPassword && (
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex border-b border-gray-200 mb-8"
+        {/* Tabs */}
+        {!showForgotPassword && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="flex border-b border-gray-200 mb-8"
+          >
+            <button
+              onClick={() => setActiveTab('login')}
+              className={`flex-1 py-3 font-medium text-sm ${activeTab === 'login' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
             >
-              <button
-                onClick={() => setActiveTab('login')}
-                className={`flex-1 py-3 font-medium text-sm ${activeTab === 'login' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
-              >
-                Login
-              </button>
-              <button
-                onClick={() => setActiveTab('signup')}
-                className={`flex-1 py-3 font-medium text-sm ${activeTab === 'signup' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
-              >
-                Sign Up
-              </button>
-            </motion.div>
-          )}
+              Login
+            </button>
+            <button
+              onClick={() => setActiveTab('signup')}
+              className={`flex-1 py-3 font-medium text-sm ${activeTab === 'signup' ? 'text-blue-600 border-b-2 border-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+            >
+              Sign Up
+            </button>
+          </motion.div>
+        )}
 
-          {/* Success Message */}
-          <AnimatePresence>
-            {success && (
-              <motion.div
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                className="mb-6 p-4 bg-green-50 rounded-lg flex items-start"
-              >
-                <div className="flex-shrink-0">
-                  <FaCheck className="h-5 w-5 text-green-500" />
-                </div>
-                <div className="ml-3">
-                  <p className="text-sm font-medium text-green-800">
-                    {showForgotPassword
-                      ? 'Password reset link sent to your email!'
-                      : activeTab === 'login'
-                      ? 'Login successful! Redirecting...'
-                      : 'Account created successfully! Please check your email to verify your account.'}
-                  </p>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Error Message */}
-          {error && (
+        {/* Success Message */}
+        <AnimatePresence>
+          {success && (
             <motion.div
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="mb-6 p-4 bg-red-50 rounded-lg flex items-start"
+              exit={{ opacity: 0 }}
+              transition={{ type: 'spring', damping: 25 }}
+              className="mb-6 p-4 bg-green-50 rounded-lg flex items-start"
             >
               <div className="flex-shrink-0">
-                <FaExclamationTriangle className="h-5 w-5 text-red-500" />
+                <FaCheck className="h-5 w-5 text-green-500" />
               </div>
               <div className="ml-3">
-                <p className="text-sm font-medium text-red-800">{error}</p>
+                <p className="text-sm font-medium text-green-800">
+                  {showForgotPassword
+                    ? 'Password reset link sent to your email!'
+                    : activeTab === 'login'
+                    ? 'Login successful! Redirecting...'
+                    : 'Account created successfully! Please check your email to verify your account.'}
+                </p>
               </div>
             </motion.div>
           )}
+        </AnimatePresence>
 
-          {/* Forgot Password Form */}
-          {showForgotPassword ? (
-            <motion.div
-              key="forgot-password"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-8 border border-white/20"
-            >
-              <form onSubmit={handlePasswordReset}>
-                <div className="mb-6">
-                  <label htmlFor="resetEmail" className="block text-sm font-medium text-gray-700 mb-1">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    id="resetEmail"
-                    value={resetEmail}
-                    onChange={(e) => setResetEmail(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Enter your email address"
-                    required
-                  />
-                </div>
+        {/* Error Message */}
+        {error && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="mb-6 p-4 bg-red-50 rounded-lg flex items-start"
+          >
+            <div className="flex-shrink-0">
+              <FaExclamationTriangle className="h-5 w-5 text-red-500" />
+            </div>
+            <div className="ml-3">
+              <p className="text-sm font-medium text-red-800">{error}</p>
+            </div>
+          </motion.div>
+        )}
 
-                <p className="text-center text-gray-600 mb-6">
-                  We&apos;ll send you a link to reset your password.
-                </p>
+        {/* Forgot Password Form */}
+        {showForgotPassword ? (
+          <motion.div
+            key="forgot-password"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-8 border border-white/20"
+          >
+            <form onSubmit={handlePasswordReset}>
+              <div className="mb-6">
+                <label htmlFor="resetEmail" className="block text-sm font-medium text-gray-700 mb-1">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  id="resetEmail"
+                  value={resetEmail}
+                  onChange={(e) => setResetEmail(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Enter your email address"
+                  required
+                />
+              </div>
 
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:shadow-md transition-all font-medium flex items-center justify-center"
-                >
-                  {loading ? (
-                    <>
-                      <FaSpinner className="animate-spin mr-2" />
-                      Sending...
-                    </>
-                  ) : (
-                    'Send Reset Link'
-                  )}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowForgotPassword(false)}
-                  className="w-full mt-3 py-3 px-4 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all font-medium"
-                >
-                  Back to Login
-                </button>
-              </form>
-            </motion.div>
-          ) : (
-            <>
-              {/* Login Form */}
-              {activeTab === 'login' && (
-                <motion.div
-                  key="login-form"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-8 border border-white/20"
-                >
-                  <form onSubmit={handleLogin}>
-                    <div className="mb-6">
-                      <label htmlFor="loginEmail" className="block text-sm font-medium text-gray-700 mb-1">
-                        Email Address
+              <p className="text-center text-gray-600 mb-6">
+                We&apos;ll send you a link to reset your password.
+              </p>
+
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:shadow-md transition-all font-medium flex items-center justify-center"
+              >
+                {loading ? (
+                  <>
+                    <FaSpinner className="animate-spin mr-2" />
+                    Sending...
+                  </>
+                ) : (
+                  'Send Reset Link'
+                )}
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowForgotPassword(false)}
+                className="w-full mt-3 py-3 px-4 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-all font-medium"
+              >
+                Back to Login
+              </button>
+            </form>
+          </motion.div>
+        ) : (
+          <>
+            {/* Login Form */}
+            {activeTab === 'login' && (
+              <motion.div
+                key="login-form"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-8 border border-white/20"
+              >
+                <form onSubmit={handleLogin}>
+                  <div className="mb-6">
+                    <label htmlFor="loginEmail" className="block text-sm font-medium text-gray-700 mb-1">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      id="loginEmail"
+                      name="email"
+                      value={loginData.email}
+                      onChange={handleLoginChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Enter your email address"
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-6">
+                    <label htmlFor="loginPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                      Password
+                    </label>
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        id="loginPassword"
+                        name="password"
+                        value={loginData.password}
+                        onChange={handleLoginChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 pr-10"
+                        placeholder="Enter your password"
+                        required
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700"
+                      >
+                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                      </button>
+                    </div>
+                    <div className="flex justify-between mt-1">
+                      <div className="flex items-center">
+                        <input
+                          type="checkbox"
+                          id="rememberMe"
+                          name="rememberMe"
+                          checked={loginData.rememberMe}
+                          onChange={handleLoginChange}
+                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                        />
+                        <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-700">
+                          Remember me
+                        </label>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setShowForgotPassword(true)}
+                        className="text-sm text-blue-600 hover:text-blue-500"
+                      >
+                        Forgot password?
+                      </button>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:shadow-md transition-all font-medium flex items-center justify-center"
+                  >
+                    {loading ? (
+                      <>
+                        <FaSpinner className="animate-spin mr-2" />
+                        Signing In...
+                      </>
+                    ) : (
+                      'Sign In'
+                    )}
+                  </button>
+
+                  
+                </form>
+              </motion.div>
+            )}
+
+            {/* Signup Form */}
+            {activeTab === 'signup' && (
+              <motion.div
+                key="signup-form"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-8 border border-white/20"
+              >
+                <form onSubmit={handleSubmit}>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                    <div>
+                      <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
+                        First Name
                       </label>
                       <input
-                        type="email"
-                        id="loginEmail"
-                        name="email"
-                        value={loginData.email}
-                        onChange={handleLoginChange}
+                        type="text"
+                        id="firstName"
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleInputChange}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Enter your email address"
+                        placeholder="First name"
                         required
                       />
                     </div>
+                    <div>
+                      <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
+                        Last Name
+                      </label>
+                      <input
+                        type="text"
+                        id="lastName"
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleInputChange}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Last name"
+                        required
+                      />
+                    </div>
+                  </div>
 
-                    <div className="mb-6">
-                      <label htmlFor="loginPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                  <div className="mb-6">
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                      Email Address
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Email address"
+                      required
+                    />
+                  </div>
+
+                  <div className="mb-6">
+                    <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                      Phone Number
+                    </label>
+                    <input
+                      type="tel"
+                      id="phone"
+                      name="phone"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Phone number"
+                      required
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-2">
+                    <div>
+                      <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
                         Password
                       </label>
                       <div className="relative">
                         <input
                           type={showPassword ? "text" : "password"}
-                          id="loginPassword"
+                          id="password"
                           name="password"
-                          value={loginData.password}
-                          onChange={handleLoginChange}
+                          value={formData.password}
+                          onChange={handleInputChange}
                           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 pr-10"
-                          placeholder="Enter your password"
+                          placeholder="Password"
                           required
                         />
                         <button
@@ -409,346 +540,142 @@ const AuthPage = () => {
                           {showPassword ? <FaEyeSlash /> : <FaEye />}
                         </button>
                       </div>
-                      <div className="flex justify-between mt-1">
-                        <div className="flex items-center">
-                          <input
-                            type="checkbox"
-                            id="rememberMe"
-                            name="rememberMe"
-                            checked={loginData.rememberMe}
-                            onChange={handleLoginChange}
-                            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                          />
-                          <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-700">
-                            Remember me
-                          </label>
+                      {formData.password && (
+                        <div className="mt-2">
+                          <div className="flex items-center">
+                            <div className="w-full bg-gray-200 rounded-full h-1.5">
+                              <div 
+                                className={`h-1.5 rounded-full ${getPasswordStrengthColor()}`} 
+                                style={{ width: `${(passwordStrength / 4) * 100}%` }}
+                              ></div>
+                            </div>
+                            <span className="ml-2 text-xs text-gray-500">
+                              {getPasswordStrengthText()}
+                            </span>
+                          </div>
                         </div>
+                      )}
+                    </div>
+                    <div>
+                      <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                        Confirm Password
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showConfirmPassword ? "text" : "password"}
+                          id="confirmPassword"
+                          name="confirmPassword"
+                          value={formData.confirmPassword}
+                          onChange={handleInputChange}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 pr-10"
+                          placeholder="Confirm password"
+                          required
+                        />
                         <button
                           type="button"
-                          onClick={() => setShowForgotPassword(true)}
-                          className="text-sm text-blue-600 hover:text-blue-500"
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700"
                         >
-                          Forgot password?
+                          {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
                         </button>
                       </div>
                     </div>
+                  </div>
 
-                    <button
-                      type="submit"
-                      disabled={loading}
-                      className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:shadow-md transition-all font-medium flex items-center justify-center"
-                    >
-                      {loading ? (
-                        <>
-                          <FaSpinner className="animate-spin mr-2" />
-                          Signing In...
-                        </>
-                      ) : (
-                        'Sign In'
-                      )}
-                    </button>
-                  </form>
-                </motion.div>
-              )}
+                  <div className="mb-6">
+                    <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">
+                      Company (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      id="company"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleInputChange}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Company name"
+                    />
+                  </div>
 
-              {/* Signup Form */}
-              {activeTab === 'signup' && (
-                <motion.div
-                  key="signup-form"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-8 border border-white/20"
-                >
-                  <form onSubmit={handleSubmit}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                      <div>
-                        <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
-                          First Name
-                        </label>
+                  <div className="mb-6">
+                    <div className="flex items-start">
+                      <div className="flex items-center h-5">
                         <input
-                          type="text"
-                          id="firstName"
-                          name="firstName"
-                          value={formData.firstName}
+                          type="checkbox"
+                          id="termsAgreement"
+                          name="termsAgreement"
+                          checked={formData.termsAgreement}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                          placeholder="First name"
+                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                           required
                         />
                       </div>
-                      <div>
-                        <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
-                          Last Name
+                      <div className="ml-3 text-sm">
+                        <label htmlFor="termsAgreement" className="text-gray-700">
+                          I agree to the{' '}
+                          <Link href="#" className="text-blue-600 hover:text-blue-500">
+                            Terms of Service
+                          </Link>{' '}
+                          and{' '}
+                          <Link href="#" className="text-blue-600 hover:text-blue-500">
+                            Privacy Policy
+                          </Link>
                         </label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mb-6">
+                    <div className="flex items-start">
+                      <div className="flex items-center h-5">
                         <input
-                          type="text"
-                          id="lastName"
-                          name="lastName"
-                          value={formData.lastName}
+                          type="checkbox"
+                          id="marketingConsent"
+                          name="marketingConsent"
+                          checked={formData.marketingConsent}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                          placeholder="Last name"
-                          required
+                          className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                         />
                       </div>
-                    </div>
-
-                    <div className="mb-6">
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                        Email Address
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Email address"
-                        required
-                      />
-                    </div>
-
-                    <div className="mb-6">
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                        Phone Number
-                      </label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Phone number"
-                        required
-                      />
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-2">
-                      <div>
-                        <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                          Password
+                      <div className="ml-3 text-sm">
+                        <label htmlFor="marketingConsent" className="text-gray-700">
+                          I want to receive updates and offers from TransVioGlobal
                         </label>
-                        <div className="relative">
-                          <input
-                            type={showPassword ? "text" : "password"}
-                            id="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleInputChange}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 pr-10"
-                            placeholder="Password"
-                            required
-                          />
-                          <button
-                            type="button"
-                            onClick={() => setShowPassword(!showPassword)}
-                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700"
-                          >
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
-                          </button>
-                        </div>
-                        {formData.password && (
-                          <div className="mt-2">
-                            <div className="flex items-center">
-                              <div className="w-full bg-gray-200 rounded-full h-1.5">
-                                <div 
-                                  className={`h-1.5 rounded-full ${getPasswordStrengthColor()}`} 
-                                  style={{ width: `${(passwordStrength / 4) * 100}%` }}
-                                ></div>
-                              </div>
-                              <span className="ml-2 text-xs text-gray-500">
-                                {getPasswordStrengthText()}
-                              </span>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                      <div>
-                        <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-                          Confirm Password
-                        </label>
-                        <div className="relative">
-                          <input
-                            type={showConfirmPassword ? "text" : "password"}
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            value={formData.confirmPassword}
-                            onChange={handleInputChange}
-                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 pr-10"
-                            placeholder="Confirm password"
-                            required
-                          />
-                          <button
-                            type="button"
-                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                            className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700"
-                          >
-                            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                          </button>
-                        </div>
                       </div>
                     </div>
+                  </div>
 
-                    <div className="mb-6">
-                      <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">
-                        Company (Optional)
-                      </label>
-                      <input
-                        type="text"
-                        id="company"
-                        name="company"
-                        value={formData.company}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Company name"
-                      />
-                    </div>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:shadow-md transition-all font-medium flex items-center justify-center"
+                  >
+                    {loading ? (
+                      <>
+                        <FaSpinner className="animate-spin mr-2" />
+                        Creating Account...
+                      </>
+                    ) : (
+                      'Create Account'
+                    )}
+                  </button>
 
-                    <div className="mb-6">
-                      <div className="flex items-start">
-                        <div className="flex items-center h-5">
-                          <input
-                            type="checkbox"
-                            id="termsAgreement"
-                            name="termsAgreement"
-                            checked={formData.termsAgreement}
-                            onChange={handleInputChange}
-                            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                            required
-                          />
-                        </div>
-                        <div className="ml-3 text-sm">
-                          <label htmlFor="termsAgreement" className="text-gray-700">
-                            I agree to the{' '}
-                            <Link href="#" className="text-blue-600 hover:text-blue-500">
-                              Terms of Service
-                            </Link>{' '}
-                            and{' '}
-                            <Link href="#" className="text-blue-600 hover:text-blue-500">
-                              Privacy Policy
-                            </Link>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="mb-6">
-                      <div className="flex items-start">
-                        <div className="flex items-center h-5">
-                          <input
-                            type="checkbox"
-                            id="marketingConsent"
-                            name="marketingConsent"
-                            checked={formData.marketingConsent}
-                            onChange={handleInputChange}
-                            className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                          />
-                        </div>
-                        <div className="ml-3 text-sm">
-                          <label htmlFor="marketingConsent" className="text-gray-700">
-                            I want to receive updates and offers from TransVioGlobal
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-
+                  <div className="mt-4 text-center text-sm text-gray-600">
+                    Already have an account?{' '}
                     <button
-                      type="submit"
-                      disabled={loading}
-                      className="w-full py-3 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-lg hover:shadow-md transition-all font-medium flex items-center justify-center"
+                      type="button"
+                      onClick={() => setActiveTab('login')}
+                      className="text-blue-600 hover:text-blue-500 font-medium"
                     >
-                      {loading ? (
-                        <>
-                          <FaSpinner className="animate-spin mr-2" />
-                          Creating Account...
-                        </>
-                      ) : (
-                        'Create Account'
-                      )}
+                      Sign in
                     </button>
-
-                    <div className="mt-4 text-center text-sm text-gray-600">
-                      Already have an account?{' '}
-                      <button
-                        type="button"
-                        onClick={() => setActiveTab('login')}
-                        className="text-blue-600 hover:text-blue-500 font-medium"
-                      >
-                        Sign in
-                      </button>
-                    </div>
-                  </form>
-                </motion.div>
-              )}
-            </>
-          )}
-        </div>
-      </main>
-
-      {/* Benefits Section */}
-      <section className="py-16 bg-white/80 backdrop-blur-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Benefits of Creating an Account</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <motion.div 
-              whileHover={{ y: -5 }}
-              className="bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-white/20"
-            >
-              <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Complete Shipment History</h3>
-              <p className="text-gray-600">Access your full shipping records with detailed tracking information and downloadable documents all in one place.</p>
-            </motion.div>
-
-            <motion.div 
-              whileHover={{ y: -5 }}
-              className="bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-white/20"
-            >
-              <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Expedited Booking</h3>
-              <p className="text-gray-600">Save time with pre-filled forms, saved preferences, and quick reorder of previous shipments.</p>
-            </motion.div>
-
-            <motion.div 
-              whileHover={{ y: -5 }}
-              className="bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-white/20"
-            >
-              <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Address Management</h3>
-              <p className="text-gray-600">Store and manage frequently used addresses for faster checkout and consistent documentation.</p>
-            </motion.div>
-
-            <motion.div 
-              whileHover={{ y: -5 }}
-              className="bg-white/90 backdrop-blur-sm p-6 rounded-xl shadow-lg border border-white/20"
-            >
-              <div className="w-14 h-14 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-2">Preferred Rates</h3>
-              <p className="text-gray-600">Receive exclusive discounts, promotional rates, and personalized offers based on your shipping volume.</p>
-            </motion.div>
-          </div>
-        </div>
-      </section>
-
+                  </div>
+                </form>
+              </motion.div>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 };

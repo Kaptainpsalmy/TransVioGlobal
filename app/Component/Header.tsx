@@ -1,16 +1,32 @@
 'use client'
-import { useState } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa';
+import { useState, useEffect } from 'react';
+import { FaBars, FaTimes, FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
+
+  useEffect(() => {
+    // Check authentication status from localStorage on component mount
+    const authStatus = localStorage.getItem('isAuthenticated') === 'true';
+    setIsAuthenticated(authStatus);
+  }, [pathname]); // Re-check when route changes
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('user');
+    setIsAuthenticated(false);
+    router.push('/');
+    setIsMenuOpen(false);
   };
 
   const navItems = [
@@ -103,18 +119,39 @@ const Header = () => {
             transition={{ delay: 0.4 }}
             className="hidden lg:flex items-center space-x-3 ml-6"
           >
-            <Link
-              href="/login"
-              className="px-4 py-2 border border-cyan-400/30 text-cyan-300 rounded-lg hover:bg-white/5 transition-all font-medium text-sm hover:border-cyan-300/50"
-            >
-              Login
-            </Link>
-            <Link
-              href="login.html?action=signup"
-              className="px-4 py-2 bg-gradient-to-r from-cyan-400 to-blue-500 text-white rounded-lg hover:shadow-cyan-400/20 transition-all font-medium text-sm shadow-md hover:shadow-lg"
-            >
-              Sign Up
-            </Link>
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-4">
+                <Link
+                  href="/dashboard"
+                  className="flex items-center text-cyan-300 hover:text-cyan-200"
+                >
+                  <FaUserCircle className="mr-2" />
+                  Dashboard
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 border border-red-400/30 text-red-300 rounded-lg hover:bg-red-500/10 transition-all font-medium text-sm hover:border-red-300/50 flex items-center"
+                >
+                  <FaSignOutAlt className="mr-2" />
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <>
+                <Link
+                  href="/login"
+                  className="px-4 py-2 border border-cyan-400/30 text-cyan-300 rounded-lg hover:bg-white/5 transition-all font-medium text-sm hover:border-cyan-300/50"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/login?action=signup"
+                  className="px-4 py-2 bg-gradient-to-r from-cyan-400 to-blue-500 text-white rounded-lg hover:shadow-cyan-400/20 transition-all font-medium text-sm shadow-md hover:shadow-lg"
+                >
+                  Sign Up
+                </Link>
+              </>
+            )}
           </motion.div>
 
           {/* Mobile Menu Button */}
@@ -177,27 +214,41 @@ const Header = () => {
                   </motion.div>
                 ))}
               </motion.div>
-              <motion.div 
-                className="mt-4 pt-4 border-t border-white/10 flex space-x-3"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-              >
-                <Link
-                  href="login.html"
-                  className="flex-1 px-4 py-2 text-center border border-cyan-400/30 text-cyan-300 rounded-lg hover:bg-white/5 transition-all font-medium text-sm"
-                  onClick={toggleMenu}
+              
+              {isAuthenticated ? (
+                <div className="mt-4 pt-4 border-t border-white/10 space-y-3">
+                 
+                  <button
+                    onClick={handleLogout}
+                    className="w-full flex items-center px-4 py-2 border border-red-400/30 text-red-300 rounded-lg hover:bg-red-500/10 transition-all font-medium text-sm"
+                  >
+                    <FaSignOutAlt className="mr-2" />
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <motion.div 
+                  className="mt-4 pt-4 border-t border-white/10 flex space-x-3"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.4 }}
                 >
-                  Login
-                </Link>
-                <Link
-                  href="login.html?action=signup"
-                  className="flex-1 px-4 py-2 text-center bg-gradient-to-r from-cyan-400 to-blue-500 text-white rounded-lg hover:shadow-cyan-400/20 transition-all font-medium text-sm shadow-md"
-                  onClick={toggleMenu}
-                >
-                  Sign Up
-                </Link>
-              </motion.div>
+                  <Link
+                    href="/login"
+                    className="flex-1 px-4 py-2 text-center border border-cyan-400/30 text-cyan-300 rounded-lg hover:bg-white/5 transition-all font-medium text-sm"
+                    onClick={toggleMenu}
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    href="/login?action=signup"
+                    className="flex-1 px-4 py-2 text-center bg-gradient-to-r from-cyan-400 to-blue-500 text-white rounded-lg hover:shadow-cyan-400/20 transition-all font-medium text-sm shadow-md"
+                    onClick={toggleMenu}
+                  >
+                    Sign Up
+                  </Link>
+                </motion.div>
+              )}
             </motion.div>
           </motion.div>
         )}
