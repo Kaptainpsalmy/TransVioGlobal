@@ -8,7 +8,7 @@ import { useRouter } from 'next/navigation';
 const AuthPage = () => {
   const router = useRouter();
 
-  const [mounted, setMounted] = useState(false);
+
   const [activeTab, setActiveTab] = useState('login');
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   
@@ -82,8 +82,6 @@ const AuthPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!mounted) return;
-    
     setLoading(true);
     setError('');
     
@@ -132,7 +130,7 @@ const AuthPage = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!mounted) return;
+
     
     setLoading(true);
     setError('');
@@ -169,8 +167,7 @@ const AuthPage = () => {
 
   const handlePasswordReset = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!mounted) return;
-    
+
     setLoading(true);
     setError('');
     
@@ -208,17 +205,6 @@ const AuthPage = () => {
     if (passwordStrength === 3) return 'Good';
     return 'Strong';
   };
-
-  if (!mounted) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-        <div className="text-center">
-          <FaSpinner className="animate-spin text-4xl text-blue-600 mx-auto" />
-          <p className="mt-4 text-gray-600">Loading authentication...</p>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-24">
