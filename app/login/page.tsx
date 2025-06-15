@@ -39,15 +39,16 @@ const AuthPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
 
-  // Ensure client-side only code
   useEffect(() => {
-    setMounted(true);
-    // Set active tab based on URL param
-    const action = searchParams?.get('action');
-    if (action === 'signup') {
-      setActiveTab('signup');
+    // Check URL params on client side
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      const action = params.get('action');
+      if (action === 'signup') {
+        setActiveTab('signup');
+      }
     }
-  }, [searchParams]);
+  }, []);
 
   // Password strength calculator
   useEffect(() => {
