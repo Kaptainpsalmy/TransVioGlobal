@@ -78,10 +78,25 @@ const ContactPage = () => {
   return (
     <div className="bg-gray-50">
       {/* Page Banner */}
-      <section className="bg-gradient-to-r from-blue-900/80 to-indigo-900/80 backdrop-blur-sm py-20">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-4xl font-bold mb-4">Contact Us</h1>
-          <p className="text-xl">We&apos;re here to help with all your logistics needs</p>
+         <section className="relative bg-gradient-to-r from-blue-900/80 to-indigo-900/80 backdrop-blur-sm py-20 md:py-28 overflow-hidden">
+        <div className="absolute inset-0 bg-[url('/images/texture.png')] opacity-10"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-4xl md:text-5xl font-bold text-white mb-4"
+          >
+            Contact Us
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-xl text-white/90 max-w-3xl mx-auto"
+          >
+            We&apos;re here to help with all your logistics needs
+          </motion.p>
         </div>
       </section>
 
