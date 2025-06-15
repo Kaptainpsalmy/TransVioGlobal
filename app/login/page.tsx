@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 
 const AuthPage = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
+
   const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState('login');
   const [showForgotPassword, setShowForgotPassword] = useState(false);
