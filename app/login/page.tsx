@@ -40,7 +40,7 @@ const AuthPage = () => {
     if (action === 'signup') {
       setActiveTab('signup');
     }
-  }, [searchParams]);
+  }, [params]);
 
   // Simulate password strength check
   useEffect(() => {
