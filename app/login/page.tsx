@@ -1,15 +1,18 @@
 'use client'
 import { useState, useEffect } from 'react';
-import { FaSpinner, FaCheck, FaExclamationTriangle, FaEye, FaEyeSlash} from 'react-icons/fa';
+import { FaSpinner, FaCheck, FaExclamationTriangle, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { useRouter} from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 const AuthPage = () => {
   const router = useRouter();
-  const params = new URLSearchParams(window.location.search);
+  const searchParams = useSearchParams();
+  const [mounted, setMounted] = useState(false);
   const [activeTab, setActiveTab] = useState('login');
   const [showForgotPassword, setShowForgotPassword] = useState(false);
+  
+  // Form states
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -21,11 +24,13 @@ const AuthPage = () => {
     termsAgreement: false,
     marketingConsent: false
   });
+  
   const [loginData, setLoginData] = useState({
     email: '',
     password: '',
     rememberMe: false
   });
+  
   const [resetEmail, setResetEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -34,15 +39,17 @@ const AuthPage = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [passwordStrength, setPasswordStrength] = useState(0);
 
-  // Check URL for action parameter
+  // Ensure client-side only code
   useEffect(() => {
-    const action = params.get('action');
+    setMounted(true);
+    // Set active tab based on URL param
+    const action = searchParams?.get('action');
     if (action === 'signup') {
       setActiveTab('signup');
     }
-  }, [params]);
+  }, [searchParams]);
 
-  // Simulate password strength check
+  // Password strength calculator
   useEffect(() => {
     if (formData.password) {
       let strength = 0;
@@ -74,27 +81,25 @@ const AuthPage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!mounted) return;
+    
     setLoading(true);
     setError('');
     
-    // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1500));
     
-    // Validate password match
     if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
       setLoading(false);
       return;
     }
     
-    // Validate terms agreement
     if (!formData.termsAgreement) {
       setError('You must agree to the Terms of Service');
       setLoading(false);
       return;
     }
     
-    // Store user data in localStorage (simulated registration)
     const userData = {
       email: formData.email,
       password: formData.password,
@@ -107,7 +112,6 @@ const AuthPage = () => {
     setSuccess(true);
     setLoading(false);
     
-    // Simulate email verification
     setTimeout(() => {
       setSuccess(false);
       setActiveTab('login');
@@ -127,13 +131,13 @@ const AuthPage = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!mounted) return;
+    
     setLoading(true);
     setError('');
     
-    // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // Check credentials against localStorage (simulated authentication)
     const storedUser = localStorage.getItem('user');
     const user = storedUser ? JSON.parse(storedUser) : null;
     
@@ -149,7 +153,6 @@ const AuthPage = () => {
       return;
     }
     
-    // Successful login - set authentication state
     localStorage.setItem('isAuthenticated', 'true');
     if (loginData.rememberMe) {
       localStorage.setItem('rememberMe', 'true');
@@ -158,7 +161,6 @@ const AuthPage = () => {
     setSuccess(true);
     setLoading(false);
     
-    // Redirect to dashboard
     setTimeout(() => {
       router.push('/');
     }, 1500);
@@ -166,13 +168,13 @@ const AuthPage = () => {
 
   const handlePasswordReset = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!mounted) return;
+    
     setLoading(true);
     setError('');
     
-    // Simulate API delay
     await new Promise(resolve => setTimeout(resolve, 1000));
     
-    // Check if email exists in localStorage
     const storedUser = localStorage.getItem('user');
     const user = storedUser ? JSON.parse(storedUser) : null;
     
@@ -185,7 +187,6 @@ const AuthPage = () => {
     setSuccess(true);
     setLoading(false);
     
-    // Reset form
     setTimeout(() => {
       setSuccess(false);
       setShowForgotPassword(false);
@@ -206,6 +207,17 @@ const AuthPage = () => {
     if (passwordStrength === 3) return 'Good';
     return 'Strong';
   };
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <FaSpinner className="animate-spin text-4xl text-blue-600 mx-auto" />
+          <p className="mt-4 text-gray-600">Loading authentication...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-24">
@@ -322,7 +334,7 @@ const AuthPage = () => {
               </div>
 
               <p className="text-center text-gray-600 mb-6">
-                We&apos;ll send you a link to reset your password.
+                We'll send you a link to reset your password.
               </p>
 
               <button
@@ -436,8 +448,6 @@ const AuthPage = () => {
                       'Sign In'
                     )}
                   </button>
-
-                  
                 </form>
               </motion.div>
             )}
