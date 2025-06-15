@@ -151,7 +151,7 @@ const AboutPage = () => {
               <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white mb-6">
                 <FaBullseye size={24} />
               </div>
-              <h3 className="text-2xl font-bold text-gray-300 mb-4">Our Mission</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Our Mission</h3>
               <p className="text-gray-600">
                 To simplify global commerce by providing innovative, reliable, and sustainable logistics solutions that empower businesses to grow and thrive in an interconnected world.
               </p>
@@ -167,7 +167,7 @@ const AboutPage = () => {
               <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white mb-6">
                 <FaEye size={24} />
               </div>
-              <h3 className="text-2xl font-bold text-gray-300 mb-4">Our Vision</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Our Vision</h3>
               <p className="text-gray-600">
                 To be the most trusted logistics partner worldwide, recognized for operational excellence, customer-centric innovation, and our positive impact on communities and the environment.
               </p>
@@ -206,7 +206,7 @@ const AboutPage = () => {
               <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center text-white mb-4">
                 {value.icon}
               </div>
-              <h3 className="text-xl font-semibold text-gray-300 mb-2">{value.title}</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">{value.title}</h3>
               <p className="text-gray-600">{value.description}</p>
             </motion.div>
           ))}
@@ -244,104 +244,10 @@ const AboutPage = () => {
           ))}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            { image: "/fleet1.jpg", caption: "Modern Delivery Fleet" },
-            { image: "/fleet2.jpg", caption: "Automated Warehouse" },
-            { image: "/fleet3.jpg", caption: "Air Cargo Partners" },
-            { image: "/fleet4.jpg", caption: "Ocean Freight Network" }
-          ].map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="group relative aspect-video rounded-2xl overflow-hidden"
-            >
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 z-10"></div>
-              <Image
-                src={item.image}
-                alt={item.caption}
-                fill
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute bottom-0 left-0 right-0 p-4 z-20">
-                <p className="text-white font-medium">{item.caption}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+       
       </section>
 
-      {/* Certifications & Partners */}
-      <section className="bg-gradient-to-r from-blue-50/50 to-cyan-50/50 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            variants={containerVariants}
-            className="text-center mb-16"
-          >
-            <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold text-gray-300 mb-3">
-              Certifications & Partners
-            </motion.h2>
-          </motion.div>
-
-          <div className="mb-16">
-            <h3 className="text-xl font-semibold text-gray-300 mb-8 text-center">Our Certifications</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              {certifications.map((cert, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-white/20 shadow-sm text-center"
-                >
-                  <div className="relative h-20 mb-4">
-                    <Image
-                      src={cert.image}
-                      alt={cert.label}
-                      fill
-                      className="object-contain"
-                    />
-                  </div>
-                  <p className="text-gray-700">{cert.label}</p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h3 className="text-xl font-semibold text-gray-300 mb-8 text-center">Strategic Partners</h3>
-            <div className="flex flex-wrap justify-center gap-8">
-              {partners.map((partner, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  className="bg-white/80 backdrop-blur-sm p-4 rounded-xl border border-white/20 shadow-sm"
-                >
-                  <div className="relative h-16 w-32">
-                    <Image
-                      src={partner.image}
-                      alt={`Partner ${index + 1}`}
-                      fill
-                      className="object-contain"
-                    />
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
+      
       {/* CTA Section */}
       <section className="bg-gradient-to-r from-blue-900/80 to-indigo-900/80 backdrop-blur-md py-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
