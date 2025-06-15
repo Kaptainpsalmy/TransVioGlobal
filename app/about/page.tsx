@@ -102,7 +102,7 @@ const AboutPage = () => {
             variants={containerVariants}
             className="space-y-6"
           >
-            <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold text-gray-900">
+            <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold text-gray-300">
               Our Story
             </motion.h2>
             <motion.p variants={itemVariants} className="text-gray-600">
@@ -151,7 +151,7 @@ const AboutPage = () => {
               <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white mb-6">
                 <FaBullseye size={24} />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Our Mission</h3>
+              <h3 className="text-2xl font-bold text-gray-300 mb-4">Our Mission</h3>
               <p className="text-gray-600">
                 To simplify global commerce by providing innovative, reliable, and sustainable logistics solutions that empower businesses to grow and thrive in an interconnected world.
               </p>
@@ -167,7 +167,7 @@ const AboutPage = () => {
               <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-full flex items-center justify-center text-white mb-6">
                 <FaEye size={24} />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Our Vision</h3>
+              <h3 className="text-2xl font-bold text-gray-300 mb-4">Our Vision</h3>
               <p className="text-gray-600">
                 To be the most trusted logistics partner worldwide, recognized for operational excellence, customer-centric innovation, and our positive impact on communities and the environment.
               </p>
@@ -185,7 +185,7 @@ const AboutPage = () => {
           variants={containerVariants}
           className="text-center mb-16"
         >
-          <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+          <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold text-gray-300 mb-3">
             Our Core Values
           </motion.h2>
           <motion.p variants={itemVariants} className="text-lg text-gray-600 max-w-2xl mx-auto">
@@ -206,7 +206,7 @@ const AboutPage = () => {
               <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg flex items-center justify-center text-white mb-4">
                 {value.icon}
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">{value.title}</h3>
+              <h3 className="text-xl font-semibold text-gray-300 mb-2">{value.title}</h3>
               <p className="text-gray-600">{value.description}</p>
             </motion.div>
           ))}
@@ -223,7 +223,7 @@ const AboutPage = () => {
           variants={containerVariants}
           className="text-center mb-16"
         >
-          <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+          <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold text-gray-300 mb-3">
             Our Fleet & Facilities
           </motion.h2>
         </motion.div>
@@ -284,13 +284,13 @@ const AboutPage = () => {
             variants={containerVariants}
             className="text-center mb-16"
           >
-            <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+            <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold text-gray-300 mb-3">
               Certifications & Partners
             </motion.h2>
           </motion.div>
 
           <div className="mb-16">
-            <h3 className="text-xl font-semibold text-gray-900 mb-8 text-center">Our Certifications</h3>
+            <h3 className="text-xl font-semibold text-gray-300 mb-8 text-center">Our Certifications</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
               {certifications.map((cert, index) => (
                 <motion.div
@@ -316,7 +316,7 @@ const AboutPage = () => {
           </div>
 
           <div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-8 text-center">Strategic Partners</h3>
+            <h3 className="text-xl font-semibold text-gray-300 mb-8 text-center">Strategic Partners</h3>
             <div className="flex flex-wrap justify-center gap-8">
               {partners.map((partner, index) => (
                 <motion.div
