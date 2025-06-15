@@ -38,7 +38,7 @@ const Header = () => {
     show: { y: 0, opacity: 1 }
   };
 
-  const isActive = (href: any) => {
+  const isActive = (href: string) => {
     if (href === '/') {
       return pathname === href;
     }
@@ -104,7 +104,7 @@ const Header = () => {
             className="hidden lg:flex items-center space-x-3 ml-6"
           >
             <Link
-              href="login.html"
+              href="/login"
               className="px-4 py-2 border border-cyan-400/30 text-cyan-300 rounded-lg hover:bg-white/5 transition-all font-medium text-sm hover:border-cyan-300/50"
             >
               Login
