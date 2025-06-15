@@ -121,13 +121,7 @@ const Header = () => {
           >
             {isAuthenticated ? (
               <div className="flex items-center space-x-4">
-                <Link
-                  href="/dashboard"
-                  className="flex items-center text-cyan-300 hover:text-cyan-200"
-                >
-                  <FaUserCircle className="mr-2" />
-                  Dashboard
-                </Link>
+
                 <button
                   onClick={handleLogout}
                   className="px-4 py-2 border border-red-400/30 text-red-300 rounded-lg hover:bg-red-500/10 transition-all font-medium text-sm hover:border-red-300/50 flex items-center"
