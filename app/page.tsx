@@ -226,8 +226,7 @@ export default function HomeSections() {
         </motion.div>
       </section>
 
-      {/* Testimonials */}
-      <TestimonialsSection />
+  
 
       {/* CTA Section */}
       <section className="bg-gradient-to-r from-blue-900/80 to-indigo-900/80 backdrop-blur-md py-20">
