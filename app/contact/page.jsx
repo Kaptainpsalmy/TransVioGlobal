@@ -259,16 +259,18 @@ const ContactPage = () => {
                 </div>
               </div>
               <div className="md:w-1/2 h-96">
-              <iframe
-  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3038.XXX...5m2!1sen!2sus"
+        <iframe
+  src="https://maps.google.com/maps?width=100%25&height=600&hl=en&q=Kargo%20Plaza%20No:%2012,%20Kat:%203,%20Atatürk%20Mahallesi,%20Havalimanı%20Caddesi,%20Arnavutköy,%2034283%20İstanbul,%20Türkiye&t=&z=16&ie=UTF8&iwloc=B&output=embed"
   width="100%"
   height="100%"
-  style={{ border: 0 }}
-  allowFullScreen=""
+  frameborder="0"
+  style="border:0"
+  allowfullscreen=""
   loading="lazy"
   referrerPolicy="no-referrer-when-downgrade"
   title="TransVioGlobal Location">
 </iframe>
+
               </div>
             </div>
           </div>
