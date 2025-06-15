@@ -50,8 +50,7 @@ const Footer = () => {
     { icon: <FaClock />, text: 'Mon-Fri: 8AM - 6PM EST' },
   ];
 
-  const socialLinks = [
-  ];
+
 
   return (
     <motion.footer 
@@ -80,18 +79,7 @@ const Footer = () => {
             <p className="text-white/80 text-sm leading-relaxed">
               Delivering excellence in global logistics with innovative solutions and unparalleled customer service.
             </p>
-            <div className="flex space-x-4 pt-2">
-              {socialLinks.map((social, index) => (
-                <motion.a
-                  key={index}
-                  href={social.href}
-                  className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-all text-white/80 hover:text-cyan-300"
-                  whileHover={{ y: -2 }}
-                >
-                  {social.icon}
-                </motion.a>
-              ))}
-            </div>
+      
           </motion.div>
 
           {/* Quick Links */}
