@@ -47,7 +47,7 @@ const Footer = () => {
   const contactInfo = [
     { icon: <FaMapMarkerAlt />, text: 'Kargo Plaza No: 12, Kat: 3 Atatürk Mahallesi, Havalimanı Caddesi Arnavutköy, 34283 İstanbul, Türkiye' },
     { icon: <FaPhone />, text: '+902129884560' },
-    { icon: <FaClock />, text: 'Mon-Fri: 8AM - 6PM EST' },
+    { icon: <FaClock />, text: 'Mon-Fri: 8AM - 6PM (GMT +3)' },
   ];
 
 
