@@ -42,23 +42,15 @@ const Footer = () => {
     { name: 'Domestic Shipping', href: '/services#domestic' },
     { name: 'International Shipping', href: '/services#international' },
     { name: 'Freight Services', href: '/services#freight' },
-    { name: 'Warehouse Solutions', href: '/services#warehouse' },
-    { name: 'E-commerce Fulfillment', href: '/services#ecommerce' },
-    { name: 'Fleet Management', href: '/services#fleet' },
   ];
 
   const contactInfo = [
-    { icon: <FaMapMarkerAlt />, text: '123 Logistics Plaza, Suite 400, New York, NY 10001' },
-    { icon: <FaPhone />, text: '+1 (800) 555-9876' },
-    { icon: <FaEnvelope />, text: 'info@transvioglobal.com' },
+    { icon: <FaMapMarkerAlt />, text: 'Kargo Plaza No: 12, Kat: 3 Atatürk Mahallesi, Havalimanı Caddesi Arnavutköy, 34283 İstanbul, Türkiye' },
+    { icon: <FaPhone />, text: '+902129884560' },
     { icon: <FaClock />, text: 'Mon-Fri: 8AM - 6PM EST' },
   ];
 
   const socialLinks = [
-    { icon: <FaFacebookF />, href: '#' },
-    { icon: <FaTwitter />, href: '#' },
-    { icon: <FaLinkedinIn />, href: '#' },
-    { icon: <FaInstagram />, href: '#' },
   ];
 
   return (
