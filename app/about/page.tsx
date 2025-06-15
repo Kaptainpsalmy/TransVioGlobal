@@ -34,32 +34,7 @@ const AboutPage = () => {
 
  
 
-  const teamMembers = [
-    {
-      name: "Sarah Johnson",
-      position: "Chief Executive Officer",
-      bio: "With 25 years in logistics, Sarah has led our global expansion and digital transformation.",
-      image: "/team1.jpg"
-    },
-    {
-      name: "Michael Chen",
-      position: "Chief Operations Officer",
-      bio: "Michael oversees our worldwide network, ensuring operational excellence at every touchpoint.",
-      image: "/team2.jpg"
-    },
-    {
-      name: "David Martinez",
-      position: "Chief Technology Officer",
-      bio: "David leads our tech innovation, developing cutting-edge logistics platforms and tools.",
-      image: "/team3.jpg"
-    },
-    {
-      name: "Emily Wilson",
-      position: "Chief Financial Officer",
-      bio: "Emily manages our financial strategy and investments to support sustainable growth.",
-      image: "/team4.jpg"
-    }
-  ];
+ 
 
   const coreValues = [
     { icon: <FaHandshake size={24} />, title: "Integrity", description: "We do business with honesty, transparency, and ethical practices in all our operations." },
@@ -93,7 +68,7 @@ const AboutPage = () => {
   ];
 
   return (
-    <div className="bg-gradient-to-b from-blue-50/50 to-white">
+    <>
       {/* Page Banner */}
       <section className="relative bg-gradient-to-r from-blue-900/80 to-indigo-900/80 backdrop-blur-sm py-20 md:py-28 overflow-hidden">
         <div className="absolute inset-0 bg-[url('/images/texture.png')] opacity-10"></div>
@@ -238,61 +213,7 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Leadership Team */}
-      <section className="bg-gradient-to-r from-blue-50/50 to-cyan-50/50 py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true }}
-            variants={containerVariants}
-            className="text-center mb-16"
-          >
-            <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
-              Leadership Team
-            </motion.h2>
-            <motion.p variants={itemVariants} className="text-lg text-gray-600 max-w-2xl mx-auto">
-              The experienced professionals guiding our company
-            </motion.p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {teamMembers.map((member, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/20 shadow-sm hover:shadow-md transition-all"
-              >
-                <div className="relative aspect-square">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900">{member.name}</h3>
-                  <p className="text-blue-600 font-medium mb-3">{member.position}</p>
-                  <p className="text-gray-600 mb-4">{member.bio}</p>
-                  <div className="flex gap-3">
-                    <a href="#" className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 hover:bg-blue-200 transition-all">
-                      <FaLinkedinIn size={14} />
-                    </a>
-                    <a href="#" className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 hover:bg-blue-200 transition-all">
-                      <FaEnvelope size={14} />
-                    </a>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
+      
       {/* Fleet & Facilities */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <motion.div
@@ -445,7 +366,7 @@ const AboutPage = () => {
           </motion.div>
         </div>
       </section>
-    </div>
+    </>
   );
 };
 
