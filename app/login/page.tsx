@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react';
 import { FaSpinner, FaCheck, FaExclamationTriangle, FaEye, FaEyeSlash} from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter} from 'next/navigation';
 
 const AuthPage = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
+  const params = new URLSearchParams(window.location.search);
   const [activeTab, setActiveTab] = useState('login');
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -36,7 +36,7 @@ const AuthPage = () => {
 
   // Check URL for action parameter
   useEffect(() => {
-    const action = searchParams.get('action');
+    const action = params.get('action');
     if (action === 'signup') {
       setActiveTab('signup');
     }
