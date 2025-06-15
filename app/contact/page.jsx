@@ -68,7 +68,7 @@ const ContactPage = () => {
       question: "What are your customer service hours?",
       answer: (
         <p className="mt-2 text-gray-600">
-          Our main customer service team is available Monday-Friday from 8:00 AM to 6:00 PM EST. 
+          Our main customer service team is available Monday-Friday from 8:00 AM to 6:00 PM (GMT +3). 
           For urgent shipment issues outside these hours, our 24/7 support team can be reached at +1 (800) 555-9876.
         </p>
       )
@@ -137,7 +137,7 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg text-gray-800">Working Hours</h3>
-                    <p className="text-gray-600">Monday - Friday: 8:00 AM - 6:00 PM EST</p>
+                    <p className="text-gray-600">Monday - Friday: 8:00 AM - 6:00 PM (GMT +3)</p>
                   </div>
                 </div>
 
@@ -266,7 +266,7 @@ const ContactPage = () => {
               
                   <p className="flex items-start gap-3">
                     <FaClock className="mt-1 text-blue-600" />
-                    <span>Monday - Friday: 8:00 AM - 6:00 PM EST<br />Saturday: 9:00 AM - 2:00 PM EST</span>
+                    <span>Monday - Friday: 8:00 AM - 6:00 PM (GMT +3)<br />Saturday: 9:00 AM - 2:00 PM (GMT +3)</span>
                   </p>
                 </div>
               </div>
