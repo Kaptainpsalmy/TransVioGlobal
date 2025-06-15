@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { FaSpinner, FaCheck, FaExclamationTriangle, FaEye, FaEyeSlash } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 const AuthPage = () => {
   const router = useRouter();
