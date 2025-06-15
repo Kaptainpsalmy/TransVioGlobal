@@ -334,7 +334,7 @@ const AuthPage = () => {
               </div>
 
               <p className="text-center text-gray-600 mb-6">
-                We'll send you a link to reset your password.
+                We&apos;ll send you a link to reset your password.
               </p>
 
               <button
