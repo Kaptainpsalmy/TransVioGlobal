@@ -238,20 +238,17 @@ const ContactPage = () => {
           <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-md overflow-hidden">
             <div className="md:flex">
               <div className="md:w-1/2 p-8">
-                <h3 className="text-2xl font-semibold mb-4 text-gray-800">New York Headquarters</h3>
+                <h3 className="text-2xl font-semibold mb-4 text-gray-800">İstanbul Headquarters</h3>
                 <div className="space-y-4 text-gray-600">
                   <p className="flex items-start gap-3">
                     <FaMapMarkerAlt className="mt-1 text-blue-600" />
-                    <span>123 Logistics Plaza, Suite 400<br />New York, NY 10001</span>
+                    <span>Kargo Plaza No: 12, Kat: 3 Atatürk Mahallesi, Havalimanı Caddesi Arnavutköy, 34283 İstanbul, Türkiye</span>
                   </p>
                   <p className="flex items-center gap-3">
                     <FaPhoneAlt className="text-blue-600" />
-                    <span>+1 (800) 555-9876</span>
+                    <span>+902129884560</span>
                   </p>
-                  <p className="flex items-center gap-3">
-                    <FaEnvelope className="text-blue-600" />
-                    <span>ny-office@transvioglobal.com</span>
-                  </p>
+              
                   <p className="flex items-start gap-3">
                     <FaClock className="mt-1 text-blue-600" />
                     <span>Monday - Friday: 8:00 AM - 6:00 PM EST<br />Saturday: 9:00 AM - 2:00 PM EST</span>
