@@ -101,7 +101,7 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg text-gray-800">Headquarters</h3>
-                    <p className="text-gray-600">123 Logistics Plaza, Suite 400<br />New York, NY 10001<br />United States</p>
+                    <p className="text-gray-600">Kargo Plaza No: 12, Kat: 3 Atatürk Mahallesi, Havalimanı Caddesi Arnavutköy, 34283 İstanbul, Türkiye</p>
                   </div>
                 </div>
 
@@ -111,19 +111,10 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold text-lg text-gray-800">Phone</h3>
-                    <p className="text-gray-600">+1 (800) 555-9876</p>
+                    <p className="text-gray-600">+902129884560</p>
                   </div>
                 </div>
 
-                <div className="flex items-start gap-4">
-                  <div className="bg-blue-100 p-3 rounded-full text-blue-700">
-                    <FaEnvelope className="text-xl" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold text-lg text-gray-800">Email</h3>
-                    <p className="text-gray-600">info@transvioglobal.com</p>
-                  </div>
-                </div>
 
                 <div className="flex items-start gap-4">
                   <div className="bg-blue-100 p-3 rounded-full text-blue-700">
@@ -135,20 +126,7 @@ const ContactPage = () => {
                   </div>
                 </div>
 
-                <div className="flex gap-4 mt-8">
-                  <a href="#" className="bg-blue-100 p-3 rounded-full text-blue-700 hover:bg-blue-200 transition">
-                    <FaFacebookF className="text-xl" />
-                  </a>
-                  <a href="#" className="bg-blue-100 p-3 rounded-full text-blue-700 hover:bg-blue-200 transition">
-                    <FaTwitter className="text-xl" />
-                  </a>
-                  <a href="#" className="bg-blue-100 p-3 rounded-full text-blue-700 hover:bg-blue-200 transition">
-                    <FaLinkedinIn className="text-xl" />
-                  </a>
-                  <a href="#" className="bg-blue-100 p-3 rounded-full text-blue-700 hover:bg-blue-200 transition">
-                    <FaInstagram className="text-xl" />
-                  </a>
-                </div>
+       
               </div>
             </div>
 
@@ -281,16 +259,16 @@ const ContactPage = () => {
                 </div>
               </div>
               <div className="md:w-1/2 h-96">
-                <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.215256024847!2d-73.98887592403496!3d40.74844097138979!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c259a9b3117469%3A0xd134e199a405a163!2sEmpire%20State%20Building!5e0!3m2!1sen!2sus!4v1681234567890!5m2!1sen!2sus"
-                  width="100%"
-                  height="100%"
-                  style={{ border: 0 }}
-                  allowFullScreen=""
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="TransVioGlobal Location"
-                ></iframe>
+              <iframe
+  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3038.XXX...5m2!1sen!2sus"
+  width="100%"
+  height="100%"
+  style={{ border: 0 }}
+  allowFullScreen=""
+  loading="lazy"
+  referrerPolicy="no-referrer-when-downgrade"
+  title="TransVioGlobal Location">
+</iframe>
               </div>
             </div>
           </div>
